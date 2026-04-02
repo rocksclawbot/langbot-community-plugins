@@ -2,14 +2,26 @@ apiVersion: v1
 kind: Plugin
 metadata:
   name: tts-emotion-router
-  version: 0.1.0
+  version: 0.1.1
+  repository: https://github.com/rocksclawbot/langbot-community-plugins
   label:
     en_US: TTS Emotion Router
     zh_Hans: TTS 情绪路由
+    zh_Hant: TTS 情緒路由
+    ja_JP: TTS感情ルーター
+    vi_VN: TTS Emotion Router
+    th_TH: TTS Emotion Router
+    es_ES: Enrutamiento TTS por Emoción
   description:
     en_US: Detect emotion in bot replies and route TTS to matching voice/speed. Supports OpenAI-compatible TTS APIs.
     zh_Hans: 检测机器人回复的情绪，自动路由到匹配的 TTS 音色和语速。支持 OpenAI 兼容 TTS API。
+    zh_Hant: 偵測機器人回覆中的情緒，自動路由到匹配的 TTS 音色和語速。
+    ja_JP: ボットの返信から感情を検出し、TTSの音声合成を適切な声質と速度にルーティングします。
+    vi_VN: Phát hiện cảm xúc trong phản hồi của bot và tự động chuyển hướng TTS đến giọng nói phù hợp.
+    th_TH: ตรวจจับอารมณ์ในการตอบกลับของบอทและกำหนดเส้นทาง TTS อัตโนมัติ
+    es_ES: Detecta emociones en las respuestas del bot y enruta TTS a voces correspondientes.
   author: kellz-dev
+  icon: assets/icon.svg
 spec:
   config:
     - name: tts_api_base

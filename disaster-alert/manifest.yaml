@@ -2,14 +2,26 @@ apiVersion: v1
 kind: Plugin
 metadata:
   name: disaster-alert
-  version: 0.1.0
+  version: 0.1.1
+  repository: https://github.com/rocksclawbot/langbot-community-plugins
   label:
     en_US: Disaster Alert
     zh_Hans: 灾害预警推送
+    zh_Hant: 災害預警推送
+    ja_JP: 災害アラート
+    vi_VN: Cảnh báo Thiên tai
+    th_TH: การแจ้งเตือนภัยพิบัติ
+    es_ES: Alerta de Desastres
   description:
     en_US: Real-time earthquake, tsunami, and weather alerts. Pulls from CEIC (China Earthquake), CMA weather warnings, and USGS global earthquake feed.
     zh_Hans: 实时地震、海啸和气象预警推送。数据源：中国地震台网 (CEIC)、中国气象预警、USGS 全球地震。
+    zh_Hant: 即時地震、海嘯和氣象預警推送。數據源：中國地震台網、USGS 全球地震。
+    ja_JP: リアルタイムの地震・津波・気象警報。CEIC、USGS、CMA気象警報からデータを取得。
+    vi_VN: Cảnh báo động đất, sóng thần và thời tiết theo thời gian thực từ CEIC, USGS và CMA.
+    th_TH: การแจ้งเตือนแผ่นดินไหว สึนามิ และสภาพอากาศแบบเรียลไทม์
+    es_ES: Alertas de terremotos, tsunamis y clima en tiempo real desde CEIC, USGS y CMA.
   author: kellz-dev
+  icon: assets/icon.svg
 spec:
   config:
     - name: check_interval
@@ -21,6 +33,7 @@ spec:
         en_US: 'How often to poll data sources (default: 120)'
         zh_Hans: '数据源轮询间隔（默认120秒）'
       required: false
+      default: 120
     - name: min_magnitude
       type: float
       label:
@@ -30,33 +43,28 @@ spec:
         en_US: 'Only alert earthquakes >= this magnitude (default: 3.0)'
         zh_Hans: '仅推送 >= 此震级的地震（默认3.0）'
       required: false
+      default: 3.0
     - name: enable_ceic
       type: bool
       label:
         en_US: Enable CEIC (China)
         zh_Hans: 启用中国地震台网
       required: false
+      default: true
     - name: enable_usgs
       type: bool
       label:
         en_US: Enable USGS (Global)
         zh_Hans: 启用 USGS（全球）
       required: false
+      default: false
     - name: enable_weather
       type: bool
       label:
         en_US: Enable Weather Warnings (China)
         zh_Hans: 启用气象预警（中国）
       required: false
-    - name: target_bot
-      type: bot-selector
-      label:
-        en_US: Alert Bot
-        zh_Hans: 推送机器人
-      description:
-        en_US: 'Which bot to send alerts through'
-        zh_Hans: '通过哪个机器人推送预警'
-      required: false
+      default: true
   components:
     EventListener:
       fromDirs:
