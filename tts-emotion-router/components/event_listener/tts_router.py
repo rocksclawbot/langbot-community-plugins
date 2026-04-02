@@ -1,9 +1,9 @@
-import io
+import base64
 import logging
-import tempfile
 
-from langbot_plugin.api.definition.component import EventListener
-from langbot_plugin.api.entities.builtin.pipeline import context, events
+from langbot_plugin.api.definition.components.common.event_listener import EventListener
+from langbot_plugin.api.entities.context import EventContext
+from langbot_plugin.api.entities import events
 from langbot_plugin.api.entities.builtin.platform import message as platform_message
 
 logger = logging.getLogger(__name__)
@@ -13,18 +13,15 @@ class TTSRouter(EventListener):
     """Intercept bot text responses, detect emotion, synthesize TTS with matching voice."""
 
     async def initialize(self):
-        @self.handler(events.NormalMessageResponded)
-        async def on_response(event_context: context.EventContext):
-            event = event_context.event
 
-            # Extract the response text
+        @self.handler(events.NormalMessageResponded)
+        async def on_response(ctx: EventContext):
+            # Extract response text
             response_text = ""
-            if hasattr(event, "response_message_chain"):
-                for component in event.response_message_chain:
+            if hasattr(ctx.event, "response_message_chain"):
+                for component in ctx.event.response_message_chain:
                     if isinstance(component, platform_message.Plain):
                         response_text += component.text
-            elif hasattr(event, "response_text"):
-                response_text = event.response_text or ""
 
             response_text = response_text.strip()
             if not response_text or len(response_text) < 2:
@@ -43,14 +40,10 @@ class TTSRouter(EventListener):
 
                 audio_data = await self.plugin.synthesize(response_text, voice, speed)
 
-                # Write to temp file and send as voice
-                with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as f:
-                    f.write(audio_data)
-                    f.flush()
-                    voice_msg = platform_message.MessageChain(
-                        [platform_message.Record(file=f.name)]
-                    )
-                    await event_context.reply(voice_msg)
+                audio_b64 = base64.b64encode(audio_data).decode("utf-8")
+                await ctx.reply(
+                    platform_message.MessageChain([platform_message.Voice(base64=audio_b64)])
+                )
 
             except Exception as e:
                 logger.error(f"TTS synthesis failed: {e}")

@@ -1,4 +1,3 @@
-import re
 import logging
 
 from langbot_plugin.api.definition.plugin import BasePlugin

@@ -1,15 +1,17 @@
-from langbot_plugin.api.definition.component import Command
-from langbot_plugin.api.entities.builtin.pipeline import context
-from langbot_plugin.api.entities.builtin.platform import message as platform_message
+from langbot_plugin.api.definition.components.command.command import Command
+from langbot_plugin.api.entities.builtin.command.context import ExecuteContext, CommandReturn
+from langbot_plugin.api.entities.builtin.platform.message import MessageChain, Plain
 
 
 class QuakeCommand(Command):
 
     async def initialize(self):
-        pass
 
-    async def execute(self, event_context: context.EventContext, args: list):
-        result = await self.plugin.get_recent_quakes()
-        await event_context.reply(
-            platform_message.MessageChain([platform_message.Plain(text=result)])
+        @self.subcommand(
+            name="list",
+            help="查看最近地震",
+            usage="quake list",
         )
+        async def quake_list(self, ctx: ExecuteContext):
+            result = await self.plugin.get_recent_quakes()
+            yield CommandReturn(text=result)
