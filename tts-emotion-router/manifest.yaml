@@ -91,3 +91,7 @@ spec:
     EventListener:
       fromDirs:
         - path: components/event_listener/
+execution:
+  python:
+    path: main.py
+    attr: TTSEmotionRouterPlugin

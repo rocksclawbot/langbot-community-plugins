@@ -6,7 +6,6 @@ A collection of practical plugins for [LangBot](https://github.com/langbot-app/L
 |--------|-------------|
 | [tts-emotion-router](./tts-emotion-router/) | Route TTS output to different voices based on detected emotion |
 | [disaster-alert](./disaster-alert/) | Real-time earthquake & weather alerts pushed to chat |
-| [group-admin](./group-admin/) | Group management commands (mute, kick, announce, etc.) |
 
 ## Installation
 
