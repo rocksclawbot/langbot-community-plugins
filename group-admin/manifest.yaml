@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: Plugin
+metadata:
+  name: group-admin
+  version: 0.1.0
+  label:
+    en_US: Group Admin
+    zh_Hans: 群管助手
+  description:
+    en_US: Group management commands — mute, kick, ban, announce, title. Works with platforms that support group admin APIs.
+    zh_Hans: 群管理命令 — 禁言、踢人、拉黑、群公告、头衔。适用于支持群管 API 的平台。
+  author: kellz-dev
+spec:
+  config:
+    - name: admin_ids
+      type: string
+      label:
+        en_US: Admin User IDs
+        zh_Hans: 管理员用户 ID
+      description:
+        en_US: 'Comma-separated list of user IDs allowed to use admin commands'
+        zh_Hans: '逗号分隔的管理员用户 ID 列表'
+      required: false
+    - name: enable_auto_mute
+      type: bool
+      label:
+        en_US: Auto-mute on Flood
+        zh_Hans: 刷屏自动禁言
+      description:
+        en_US: 'Automatically mute users who send too many messages in a short time'
+        zh_Hans: '自动禁言短时间内发送大量消息的用户'
+      required: false
+    - name: flood_threshold
+      type: int
+      label:
+        en_US: Flood Threshold (messages)
+        zh_Hans: 刷屏阈值（消息数）
+      description:
+        en_US: 'Number of messages within 10 seconds to trigger auto-mute (default: 10)'
+        zh_Hans: '10秒内发送消息数达到此阈值触发禁言（默认10）'
+      required: false
+    - name: flood_mute_duration
+      type: int
+      label:
+        en_US: Auto-mute Duration (seconds)
+        zh_Hans: 自动禁言时长（秒）
+      description:
+        en_US: 'How long to mute flood offenders (default: 300)'
+        zh_Hans: '刷屏禁言时长（默认300秒）'
+      required: false
+    - name: banned_words
+      type: string
+      label:
+        en_US: Banned Words
+        zh_Hans: 违禁词
+      description:
+        en_US: 'Comma-separated banned words. Messages containing these will be warned/muted.'
+        zh_Hans: '逗号分隔的违禁词列表。包含这些词的消息会被警告/禁言。'
+      required: false
+  components:
+    Command:
+      fromDirs:
+        - path: components/commands/
+    EventListener:
+      fromDirs:
+        - path: components/event_listener/

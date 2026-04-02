@@ -1,0 +1,93 @@
+apiVersion: v1
+kind: Plugin
+metadata:
+  name: tts-emotion-router
+  version: 0.1.0
+  label:
+    en_US: TTS Emotion Router
+    zh_Hans: TTS 情绪路由
+  description:
+    en_US: Detect emotion in bot replies and route TTS to matching voice/speed. Supports OpenAI-compatible TTS APIs.
+    zh_Hans: 检测机器人回复的情绪，自动路由到匹配的 TTS 音色和语速。支持 OpenAI 兼容 TTS API。
+  author: kellz-dev
+spec:
+  config:
+    - name: tts_api_base
+      type: string
+      label:
+        en_US: TTS API Base URL
+        zh_Hans: TTS API 地址
+      description:
+        en_US: 'OpenAI-compatible TTS endpoint, e.g. https://api.siliconflow.cn/v1'
+        zh_Hans: 'OpenAI 兼容的 TTS 接口地址'
+      required: true
+    - name: tts_api_key
+      type: string
+      label:
+        en_US: TTS API Key
+        zh_Hans: TTS API 密钥
+      required: true
+    - name: default_voice
+      type: string
+      label:
+        en_US: Default Voice
+        zh_Hans: 默认音色
+      description:
+        en_US: 'Voice ID for neutral emotion'
+        zh_Hans: '中性情绪使用的音色 ID'
+      required: true
+    - name: happy_voice
+      type: string
+      label:
+        en_US: Happy Voice
+        zh_Hans: 开心音色
+      required: false
+    - name: sad_voice
+      type: string
+      label:
+        en_US: Sad Voice
+        zh_Hans: 悲伤音色
+      required: false
+    - name: angry_voice
+      type: string
+      label:
+        en_US: Angry Voice
+        zh_Hans: 愤怒音色
+      required: false
+    - name: excited_voice
+      type: string
+      label:
+        en_US: Excited Voice
+        zh_Hans: 兴奋音色
+      required: false
+    - name: tts_model
+      type: string
+      label:
+        en_US: TTS Model
+        zh_Hans: TTS 模型
+      description:
+        en_US: 'Model name, e.g. FunAudioLLM/CosyVoice2-0.5B'
+        zh_Hans: '模型名称'
+      required: false
+    - name: llm_model
+      type: llm-model-selector
+      label:
+        en_US: Emotion Detection Model
+        zh_Hans: 情绪检测模型
+      description:
+        en_US: 'LLM for emotion classification. Falls back to keyword matching if not set.'
+        zh_Hans: 'LLM 情绪分类模型。未设置时使用关键词匹配。'
+      required: false
+    - name: speed_multiplier
+      type: float
+      label:
+        en_US: Speed Multiplier (Excited)
+        zh_Hans: 语速倍率（兴奋）
+      description:
+        en_US: 'Speed factor for excited emotion (1.0 = normal)'
+        zh_Hans: '兴奋情绪语速倍率（1.0=正常）'
+      required: false
+  components:
+    EventListener:
+      fromDirs:
+        - path: components/event_listener/

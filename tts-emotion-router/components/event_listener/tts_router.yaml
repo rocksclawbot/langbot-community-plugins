@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: EventListener
+metadata:
+  name: tts_router
+  label:
+    en_US: TTS Emotion Router
+    zh_Hans: TTS 情绪路由
+spec:
+execution:
+  python:
+    path: tts_router.py
+    attr: TTSRouter

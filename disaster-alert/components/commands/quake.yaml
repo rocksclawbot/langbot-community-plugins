@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Command
+metadata:
+  name: quake
+  label:
+    en_US: Recent Earthquakes
+    zh_Hans: 最近地震
+spec:
+  command: quake
+  description:
+    en_US: Show recent earthquakes
+    zh_Hans: 查看最近地震
+execution:
+  python:
+    path: quake.py
+    attr: QuakeCommand
